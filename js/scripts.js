@@ -8,44 +8,44 @@ var transform = function(number) {
     for (var i = 0; i < numbersStrArr.length; i++) {
         numbersNumArr[i] = +numbersStrArr[i];
     }
-    for (var j = numbersNumArr.length - 3; j >= 0; j -= 3) {
-        if (numbersNumArr[j]) {
-            numbersNumArr[j] = " " + units[numbersNumArr[j]] + " hundred";
+    for (i = numbersNumArr.length - 3; i >= 0; i -= 3) {
+        if (numbersNumArr[i]) {
+            numbersNumArr[i] = " " + units[numbersNumArr[i]] + " hundred";
         } else {
-            numbersNumArr[j] = "";
+            numbersNumArr[i] = "";
         }
     }
-    for (var k = numbersNumArr.length - 2, ko = 3; k >= 0; k -= 3, ko--) {
-        if (numbersNumArr[k] === 1) {
-            numbersNumArr[k] = " " + tens1[numbersNumArr[k + 1]] + orders[ko];
-            numbersNumArr[k + 1] = "";
-        } else if (numbersNumArr[k] && numbersNumArr[k] !== 1) {
-            numbersNumArr[k] = " " + tens2[numbersNumArr[k]];
-            numbersNumArr[k + 1] = " " + units[numbersNumArr[k + 1]] + orders[ko];
-        } else if (numbersNumArr[k] === 0 && numbersNumArr[k + 1] !== 0) {
-            numbersNumArr[k] = "";
-            numbersNumArr[k + 1] = " " + units[numbersNumArr[k + 1]] + orders[ko];
+    for (i = numbersNumArr.length - 2, j = 3; i >= 0; i -= 3, j--) {
+        if (numbersNumArr[i] === 1) {
+            numbersNumArr[i] = " " + tens1[numbersNumArr[i + 1]] + orders[j];
+            numbersNumArr[i + 1] = "";
+        } else if (numbersNumArr[i] && numbersNumArr[i] !== 1) {
+            numbersNumArr[i] = " " + tens2[numbersNumArr[i]];
+            numbersNumArr[i + 1] = " " + units[numbersNumArr[i + 1]] + orders[j];
+        } else if (numbersNumArr[i] === 0 && numbersNumArr[i + 1] !== 0) {
+            numbersNumArr[i] = "";
+            numbersNumArr[i + 1] = " " + units[numbersNumArr[i + 1]] + orders[j];
         }
     }
-    for (var n = 0; n < numbersStrArr.length; n++) {
-        if (numbersNumArr[n] === 0) {
-            numbersNumArr[n] = "";
+    for (i = 0; i < numbersStrArr.length; i++) {
+        if (numbersNumArr[i] === 0) {
+            numbersNumArr[i] = "";
         }
     }
-    for (var m = numbersNumArr.length - 1, ko1 = 3; m >= 0; m -= 3, ko1--) {
-        if (+numbersNumArr[m]) {
-            numbersNumArr[m] = " " + units[numbersNumArr[m]] + orders[ko1];
+    for (i = numbersNumArr.length - 1, j = 3; i >= 0; i -= 3, j--) {
+        if (+numbersNumArr[i]) {
+            numbersNumArr[i] = " " + units[numbersNumArr[i]] + orders[j];
         }
     }
-    for (var p = numbersNumArr.length - 3, ko2 = 3; p >= 0; p -= 3, ko2--) {
-        if (numbersNumArr[p] && numbersNumArr[p + 1] === '' && numbersNumArr[p + 2] === '') {
-            numbersNumArr[p] = numbersNumArr[p] + " " + orders[ko2];
+    for (i = numbersNumArr.length - 3, j = 3; i >= 0; i -= 3, j--) {
+        if (numbersNumArr[i] && numbersNumArr[i + 1] === '' && numbersNumArr[i + 2] === '') {
+            numbersNumArr[i] = numbersNumArr[i] + " " + orders[j];
         }
     }
     var words = "";
     numbersNumArr.forEach(function(word) {
         words += word;
-    });alert(numbersNumArr);
+    });
     return words;
 };
 
@@ -55,13 +55,16 @@ $(document).ready(function() {
 
       var result;
       var number = $("#number").val().trim();
-      if (number === '0') {
+      if (+number === 0 && number !== "") {
           result = 'zero';
-      } else {
+      } else if (/^\d+$/g.test(number)) {
           result = transform(number);
+      } else {
+          alert('Enter a number less than the trillion, please!')
       }
-      $(".result").text(result);
-      //$(":input").val("");
+      $(".input").text(number);
+      $(".result").empty().text(result);
+      $(":input").val("");
       $("#result").show();
   });
 });
