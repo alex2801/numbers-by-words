@@ -57,10 +57,10 @@ $(document).ready(function() {
       var number = $("#number").val().trim();
       if (+number === 0 && number !== "") {
           result = 'zero';
-      } else if (/^\d+$/g.test(number)) {
+      } else if (/^\d+$/g.test(number) && number.length <= 12) {
           result = transform(number);
       } else {
-          alert('Enter a number less than the trillion, please!')
+          alert('Enter a number less than 13 characters, please!');
       }
       $(".input").text(number);
       $(".result").empty().text(result);
